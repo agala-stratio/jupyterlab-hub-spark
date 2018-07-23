@@ -1,0 +1,68 @@
+language: python
+sudo: false
+cache:
+  - pip
+python:
+  - 3.6
+  - 3.5
+  - nightly
+env:
+  global:
+    - ASYNC_TEST_TIMEOUT=15
+    - MYSQL_HOST=127.0.0.1
+    - MYSQL_TCP_PORT=13306
+services:
+  - postgres
+  - docker
+
+# installing dependencies
+before_install:
+  - nvm install 6; nvm use 6
+  - npm install
+  - npm install -g configurable-http-proxy
+  - |
+    # setup database
+    if [[ $JUPYTERHUB_TEST_DB_URL == mysql* ]]; then
+      unset MYSQL_UNIX_PORT
+      DB=mysql bash ci/docker-db.sh
+      DB=mysql bash ci/init-db.sh
+      pip install 'mysql-connector<2.2'
+    elif [[ $JUPYTERHUB_TEST_DB_URL == postgresql* ]]; then
+      DB=postgres bash ci/init-db.sh
+      pip install psycopg2-binary
+    fi
+install:
+  - pip install --upgrade pip
+  - pip install --pre -r dev-requirements.txt .
+  - pip freeze
+
+# running tests
+script:
+  - |
+    # run tests
+    set -e
+    pytest -v --maxfail=2 --cov=jupyterhub jupyterhub/tests
+  - |
+    # build docs
+    pushd docs
+    pip install -r requirements.txt
+    make html
+    popd
+after_success:
+  - codecov
+
+matrix:
+  fast_finish: true
+  include:
+    - python: 3.6
+      env: JUPYTERHUB_TEST_SUBDOMAIN_HOST=http://localhost.jovyan.org:8000
+    - python: 3.6
+      env:
+        - JUPYTERHUB_TEST_DB_URL=mysql+mysqlconnector://root@127.0.0.1:$MYSQL_TCP_PORT/jupyterhub
+    - python: 3.6
+      env:
+        - JUPYTERHUB_TEST_DB_URL=postgresql://postgres@127.0.0.1/jupyterhub
+    - python: 3.7
+      dist: xenial
+  allow_failures:
+    - python: nightly

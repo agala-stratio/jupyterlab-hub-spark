@@ -1,0 +1,11 @@
+.git/
+target
+dist/target
+dist/*.iml
+.idea/*
+.idea/
+.projectile
+*.iml
+**/__pycache__
+**/.cache
+jupyterLab/jupyterlab-docker/jupyterlab/spark-2.2.0/

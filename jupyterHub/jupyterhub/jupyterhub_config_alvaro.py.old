@@ -1,0 +1,39 @@
+# spawn with Docker
+
+#c = get_config()
+
+c.JupyterHub.spawner_class = 'dockerspawner.DockerSpawner'
+c.JupyterHub.ip = '0.0.0.0'
+c.JupyterHub.port = 443
+c.JupyterHub.hub_ip = '0.0.0.0'
+c.JupyterHub.hub_port = 8080
+c.JupyterHub.ssl_key = '/etc/ssl/private/alvaro-selfsigned.key'
+c.JupyterHub.ssl_cert = '/etc/ssl/private/alvaro-selfsigned.crt'
+c.JupyterHub.extra_host_config = { 'network_mode': 'host' }
+c.JupyterHub.network_name = "host"
+
+#c.ConfigurableHTTPProxy.api_url = 'http://10.100.0.86:5432'
+#c.JupyterHub.hub_ip = '10.100.0.86'
+#c.JupyterHub.hub_connect_ip = '10.100.0.86'
+#c.JupyterHub.hub_port = 54321
+#c.JupyterHub.confirm_no_ssl=True
+
+
+#c.DockerSpawner.container_ip = "0.0.0.0"
+#c.DockerSpawner.ip = "0.0.0.0"
+c.DockerSpawner.port = 8888
+c.DockerSpawner.container_port = 8888
+#c.DockerSpawner.hub_ip_connect = '172.19.1.111'
+c.DockerSpawner.container_image = 'mikebirdgeneau/jupyterlab:alvaro'
+c.DockerSpawner.extra_host_config = { 'network_mode': 'host' }
+c.DockerSpawner.network_name = "host"
+#c.DockerSpawner.use_internal_ip = True
+c.DockerSpawner.remove_containers = True
+
+
+
+c.Authenticator.whitelist = {'alvaro'}
+c.Spawner.environment = { 'JUPYTER_ENABLE_LAB': 'yes' }
+c.Spawner.default_url = '/lab'
+c.DockerSpawner.default_url = '/lab'
+#c.Spawner.cmd = ['jupyter-labhub']

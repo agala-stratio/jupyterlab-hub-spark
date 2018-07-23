@@ -1,0 +1,5 @@
+include README.md
+recursive-include src *.js
+recursive-include tests *.py
+recursive-include notebooks *.ipynb
+recursive-include screenshots *.png

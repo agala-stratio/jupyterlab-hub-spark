@@ -1,0 +1,10 @@
+-r requirements.txt
+mock
+codecov
+cryptography
+pytest-cov
+pytest-tornado
+pytest>=3.3
+notebook
+requests-mock
+virtualenv

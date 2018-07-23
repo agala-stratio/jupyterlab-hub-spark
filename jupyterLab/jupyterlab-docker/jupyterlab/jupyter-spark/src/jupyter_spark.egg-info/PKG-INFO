@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: jupyter-spark
+Version: 0.4.0.post5
+Summary: Jupyter Notebook extension for Apache Spark integration
+Home-page: https://github.com/mozilla/jupyter-spark
+Author: Mozilla Firefox Data Platform
+Author-email: fx-data-platform@mozilla.com
+License: MPL2
+Description: UNKNOWN
+Platform: UNKNOWN
