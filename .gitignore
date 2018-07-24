@@ -9,3 +9,8 @@ dist/*.iml
 **/__pycache__
 **/.cache
 jupyterLab/jupyterlab-docker/jupyterlab/spark-2.2.0/
+**/*.egg-info/
+**/.installed.cfg
+**/*.egg
+**/*.eggs
+**/node_modules

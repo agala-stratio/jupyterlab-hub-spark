@@ -36,14 +36,6 @@ COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 RUN pip install jupyterhub
 
-# jupyter-spark lab extension 
-# FIXME: esta cogiendo bien el /jupyter-spark local?? --> no puedo poner el server extension como /jupyter_spark!! me falla
-ADD jupyter-spark jupyter-spark
-RUN cd jupyter-spark && npm install && pip install -e . \
-	&& jupyter labextension install --debug -y /jupyter-spark \
-	&& jupyter labextension enable --debug -y  /jupyter-spark \
-        && jupyter serverextension enable --py jupyter_spark 
-
 RUN jupyter labextension install -y @jupyterlab/hub-extension
 
 
@@ -57,6 +49,21 @@ ENV PYSPARK_DRIVER_PYTHON=jupyter
 ENV PYSPARK_DRIVER_PYTHON_OPTS='notebook'
 
 RUN apk add openjdk8 bash
+
+# jupyter-spark lab extension
+# FIXME: esta cogiendo bien el /jupyter-spark local?? --> no puedo poner el server extension como /jupyter-spark!! me falla
+
+
+#COPY jupyter_spark_ui/src/main/jupyter_spark_ui /usr/lib/python2.7/site-packages/jupyter_spark_ui
+RUN pip  install jupyter-spark
+RUN jupyter serverextension enable --py jupyter_spark
+
+COPY jupyter_spark_ui  jupyter_spark_ui
+RUN cd jupyter_spark_ui && pip install -e . \
+    && npm install \
+	&& jupyter labextension install -y /jupyter_spark_ui
+#	&& jupyter labextension enable -y /jupyter_spark_ui
+
 
 # Expose Jupyter port & cmd
 EXPOSE 8888

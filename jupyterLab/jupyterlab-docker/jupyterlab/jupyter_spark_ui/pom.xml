@@ -1,0 +1,74 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.stratio.intelligence</groupId>
+    <artifactId>analytic</artifactId>
+    <version>1.2.0-SNAPSHOT</version>
+  </parent>
+
+  <groupId>com.stratio.intelligence</groupId>
+  <artifactId>jupyter_spark_ui</artifactId>
+  <packaging>pom</packaging>
+  <name>Stratio Intelligence Analytic: Jupyter Spark UI</name>
+  <description>Jupyter Spark UI Module</description>
+
+
+  <build>
+    <sourceDirectory>${basedir}/src/main</sourceDirectory>
+    <directory>${basedir}/target</directory>
+    <outputDirectory>${project.build.directory}</outputDirectory>
+
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+
+        <configuration>
+          <workingDirectory>${project.build.sourceDirectory}</workingDirectory>
+        </configuration>
+
+        <executions>
+          <execution>
+            <phase>compile</phase>
+            <id>setup build</id>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>python3</executable>
+              <arguments>
+                <argument>resources/setup.py</argument>
+                <argument>build</argument>
+                <argument>--build-purelib</argument>
+                <argument>${project.build.outputDirectory}</argument>
+              </arguments>
+            </configuration>
+          </execution>
+
+          <!--<execution>
+            <phase>test</phase>
+            <id>testing</id>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>pytest</executable>
+              <environmentVariables>
+                <PYTHONPATH>${project.build.sourceDirectory}/${project.artifactId}</PYTHONPATH>
+              </environmentVariables>
+              <arguments>
+                <argument>${project.build.sourceDirectory}/${project.artifactId}</argument>
+                <argument>-v</argument>
+              </arguments>
+              <skip>${skipUTs}</skip>
+            </configuration>
+          </execution>
+          -->
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
