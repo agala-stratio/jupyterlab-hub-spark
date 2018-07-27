@@ -60,7 +60,7 @@ RUN jupyter serverextension enable --py jupyter_spark
 
 COPY jupyter_spark_ui  jupyter_spark_ui
 RUN cd jupyter_spark_ui && pip install -e . \
-    && npm install \
+#   && npm install \
 	&& jupyter labextension install -y /jupyter_spark_ui
 #	&& jupyter labextension enable -y /jupyter_spark_ui
 
